@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Wordle With Friends</string>
+    <string name="game_title_placeholder">Placeholder\'s Game</string>
+    <string name="home_create_game">Create Game</string>
+    <string name="home_play_with_code">Play with Code</string>
+    <string name="home_stats">Stats</string>
+    <string name="home_title_image">Title Image</string>
+</resources>
