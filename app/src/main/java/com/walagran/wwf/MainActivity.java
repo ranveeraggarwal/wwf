@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.walagran.wwf.ui.common.ControlsBar;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,10 +15,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button play_game_button = findViewById(R.id.play_game);
-        play_game_button.setOnClickListener(view -> {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.controlsBar, ControlsBar.newInstance("Main Activity", false, false))
+                .commit();
+
+        Button createGameButton = findViewById(R.id.create_game);
+        createGameButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), CreateGameActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        Button playGameButton = findViewById(R.id.play_game);
+        playGameButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 }

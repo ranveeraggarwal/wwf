@@ -7,8 +7,10 @@
         <entry key="..\:/Workspace/Android/WWF/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.3145" />
         <entry key="..\:/Workspace/Android/WWF/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.3145" />
         <entry key="..\:/Workspace/Android/WWF/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3145" />
+        <entry key="..\:/Workspace/Android/WWF/app/src/main/res/layout/activity_create_game.xml" value="0.5176630434782609" />
         <entry key="..\:/Workspace/Android/WWF/app/src/main/res/layout/activity_game.xml" value="0.5176630434782609" />
         <entry key="..\:/Workspace/Android/WWF/app/src/main/res/layout/activity_main.xml" value="0.5176630434782609" />
+        <entry key="..\:/Workspace/Android/WWF/app/src/main/res/layout/fragment_controls_bar.xml" value="0.31145833333333334" />
       </map>
     </option>
   </component>
@@ -17,5 +19,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="Wordle_With_Friends.app" />
+      </set>
+    </option>
   </component>
 </project>
