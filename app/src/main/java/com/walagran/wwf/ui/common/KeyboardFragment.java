@@ -63,6 +63,9 @@ public class KeyboardFragment extends Fragment {
                             .onAlphaKeyPressed(passedAlphabet));
         }
 
+        rootView.findViewById(R.id.key_back).setOnClickListener(view -> keyboardEventListener.onBackKeyPressed());
+        rootView.findViewById(R.id.key_enter).setOnClickListener(view -> keyboardEventListener.onEnterKeyPressed());
+
         return rootView;
     }
 }
