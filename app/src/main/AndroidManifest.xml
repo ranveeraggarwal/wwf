@@ -11,13 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WordleWithFriends" >
         <activity
-            android:name=".CreateGameActivity"
+            android:name=".ui.CreateGameActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".ui.GameActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

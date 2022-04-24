@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.common.KeyboardFragment">
+    <!-- First Row -->
+    <LinearLayout
+        android:id="@+id/first_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_q"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_q" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_w"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_w" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_e"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_e" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_r"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_r" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_t"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_t" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_y"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_y" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_u"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_u" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_i"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_i" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_o"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_o" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_p"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_p" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/second_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_row">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_a"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_a" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_s"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_s" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_d"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_d" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_f"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_f" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_g"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_g" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_h"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_h" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_j"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_j" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_k"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_k" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_l"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_l" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/third_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/second_row">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_back"
+            style="@style/KeyboardBigKeyStyle"
+            android:text="@string/key_back" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_z"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_z" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_x"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_x" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_c"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_c" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_v"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_v" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_b"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_b" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_n"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_n" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_m"
+            style="@style/KeyboardKeyStyle"
+            android:text="@string/key_m" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_enter"
+            style="@style/KeyboardBigKeyStyle"
+            android:text="@string/key_enter" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

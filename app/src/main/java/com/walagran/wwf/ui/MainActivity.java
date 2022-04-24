@@ -1,4 +1,4 @@
-package com.walagran.wwf;
+package com.walagran.wwf.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.walagran.wwf.R;
+import com.walagran.wwf.ui.CreateGameActivity;
+import com.walagran.wwf.ui.GameActivity;
 import com.walagran.wwf.ui.common.ControlsBar;
 
 public class MainActivity extends AppCompatActivity {

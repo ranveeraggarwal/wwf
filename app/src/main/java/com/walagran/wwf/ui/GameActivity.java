@@ -1,4 +1,4 @@
-package com.walagran.wwf;
+package com.walagran.wwf.ui;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.walagran.wwf.R;
+import com.walagran.wwf.Utils;
 import com.walagran.wwf.ui.common.ControlsBar;
 
 public class GameActivity extends AppCompatActivity {
