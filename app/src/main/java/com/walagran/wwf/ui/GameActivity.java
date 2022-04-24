@@ -3,6 +3,7 @@ package com.walagran.wwf.ui;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -36,15 +37,14 @@ public class GameActivity extends AppCompatActivity {
             row.setId(r.getIdentifier("game_row_" + i, "id", name));
             for (int j = 1; j < 6; j++) {
                 TextView textView = new TextView(this);
-                textView.setText("" + i + "" + j);
                 textView.setId(r.getIdentifier("game_cell_" + i + "" + j, "id", name));
                 TableRow.LayoutParams layoutParams = new TableRow.LayoutParams((int) r.getDimension(R.dimen.game_cell_size), (int) r.getDimension(R.dimen.game_cell_size));
-                layoutParams.setMargins(8, 8, 8, 8);
+                layoutParams.setMargins(4, 4, 4, 4);
                 textView.setLayoutParams(layoutParams);
-
-                textView.setBackgroundColor(Utils.getColorFromAttribute(getApplicationContext(), com.google.android.material.R.attr.colorSecondary));
-
-                final int levelId = (i - 1) * 5 + j - 1;
+                textView.setBackgroundColor(getResources().getColor(R.color.teal_700));
+                textView.setTextSize((int) r.getDimension(R.dimen.game_cell_text_size));
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextColor(Utils.getColorFromAttribute(getApplicationContext(), com.google.android.material.R.attr.colorOnPrimary));
 
                 row.addView(textView);
             }
