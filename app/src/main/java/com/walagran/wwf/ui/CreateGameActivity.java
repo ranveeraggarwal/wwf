@@ -2,7 +2,8 @@ package com.walagran.wwf.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +15,14 @@ import com.walagran.wwf.ui.common.KeyboardFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class CreateGameActivity extends AppCompatActivity {
     KeyboardEventListener keyboardEventListener = new CreateGameKeyboardEventListener();
     ArrayList<TextView> letterViews = new ArrayList<>();
     ArrayList<Character> createdWord = new ArrayList<>(Arrays.asList('F', 'L', 'A', 'S', 'H'));
     int focusedLetter = 0;
+    int gameId = 0;
 
 
     @Override
@@ -29,13 +32,33 @@ public class CreateGameActivity extends AppCompatActivity {
 
         setUpFragments();
         initializeLetterViews();
+        initializeButtons();
     }
 
-    public String getWord() {
-        if (focusedLetter == 5) {
-            return "FLASH";
-        }
-        return "";
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void initializeButtons() {
+        Button shareButton = findViewById(R.id.shareGame);
+        shareButton.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            getWord().ifPresent(word -> {
+                intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing Game #%s", gameId));
+                intent.putExtra(Intent.EXTRA_TEXT, word);
+                startActivity(Intent.createChooser(intent, "Word"));
+            });
+        });
+    }
+
+    private Optional<String> getWord() {
+        return (focusedLetter == 5) ? Optional.of(TextUtils.join("", createdWord)) : Optional.empty();
     }
 
     private void initializeLetterViews() {
@@ -50,21 +73,13 @@ public class CreateGameActivity extends AppCompatActivity {
     private void setUpFragments() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.controlsBar, ControlsBar.newInstance("Creating Game 0"))
+                .replace(R.id.controlsBar, ControlsBar.newInstance(String.format("Creating Game %s", gameId)))
                 .commit();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.create_game_keyboard, KeyboardFragment.newInstance(keyboardEventListener))
                 .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     class CreateGameKeyboardEventListener implements KeyboardEventListener {
