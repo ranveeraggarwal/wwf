@@ -64,7 +64,7 @@ public class CreateGameActivity extends AppCompatActivity {
     private void initializeLetterViews() {
         for(int i=1; i<6; i++) {
             letterViews
-                    .add((TextView) findViewById(getResources()
+                    .add(findViewById(getResources()
                             .getIdentifier("create_letter_"+i, "id",
                                     getPackageName())));
         }
