@@ -3,10 +3,12 @@ package com.walagran.wwf.ui;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,15 +19,26 @@ import com.walagran.wwf.ui.common.KeyboardEventListener;
 import com.walagran.wwf.ui.common.KeyboardFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
 public class GameActivity extends AppCompatActivity {
-    KeyboardEventListener keyboardEventListener = new PlayGameKeyboardEventListener();
-    ArrayList<ArrayList<TextView>> letterViews = new ArrayList<>();
+    private Resources resources;
+    private String packageName;
+
+    private final KeyboardEventListener keyboardEventListener = new PlayGameKeyboardEventListener();
+    private final ArrayList<ArrayList<TextView>> textViewGridCache = new ArrayList<>();
+    private final ArrayList<ArrayList<Character>> textGrid = new ArrayList<>();
+    private int rowInFocus = 0;
+    private int cellInFocus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        resources =  getResources();
+        packageName = getPackageName();
 
         setUpFragments();
         createGrid();
@@ -51,50 +64,89 @@ public class GameActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private Optional<String> getWord() {
+        return (cellInFocus == 5) ? Optional.of(TextUtils.join("", textGrid.get(rowInFocus))) : Optional.empty();
+    }
+
     private void createGrid() {
-        Resources r = getResources();
-        String name = getPackageName();
-
-        TableLayout levelsTable = findViewById(R.id.gameTable);
+        TableLayout layoutGrid = findViewById(R.id.gameTable);
         for (int i = 1; i < 6; i++) {
-            ArrayList<TextView> textViewRow = new ArrayList<>();
-            TableRow row = new TableRow(this);
-            TableLayout.LayoutParams rowLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-            row.setLayoutParams(rowLayoutParams);
-            row.setId(r.getIdentifier("game_row_" + i, "id", name));
-            for (int j = 1; j < 6; j++) {
-                TextView textView = new TextView(this);
-                textView.setId(r.getIdentifier("game_cell_" + i + "" + j, "id", name));
-                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams((int) r.getDimension(R.dimen.game_cell_size), (int) r.getDimension(R.dimen.game_cell_size));
-                layoutParams.setMargins(4, 4, 4, 4);
-                textView.setLayoutParams(layoutParams);
-                textView.setBackgroundColor(getResources().getColor(R.color.teal_700));
-                textView.setTextSize((int) r.getDimension(R.dimen.game_cell_text_size));
-                textView.setGravity(Gravity.CENTER);
-                textView.setTextColor(Utils.getColorFromAttribute(getApplicationContext(), com.google.android.material.R.attr.colorOnPrimary));
+            ArrayList<TextView> textViewGridCacheRow = new ArrayList<>();
+            TableRow layoutRow = new TableRow(this);
 
-                row.addView(textView);
-                textViewRow.add(textView);
+            applyRowStyle(layoutRow);
+            layoutRow.setId(resources.getIdentifier("game_row_" + i, "id", packageName));
+
+            for (int j = 1; j < 6; j++) {
+                TextView cell = new TextView(this);
+
+                cell.setId(resources.getIdentifier("game_cell_" + i + "" + j, "id", packageName));
+                applyCellStyle(cell);
+
+                layoutRow.addView(cell);
+                textViewGridCacheRow.add(cell);
             }
-            levelsTable.addView(row);
-            letterViews.add(textViewRow);
+
+            layoutGrid.addView(layoutRow);
+            textViewGridCache.add(textViewGridCacheRow);
         }
+
+        // Initialize fake values
+        textGrid.add(new ArrayList<>(Arrays.asList('A', 'B', 'C', 'R', 'E')));
+        textGrid.add(new ArrayList<>(Arrays.asList('F', 'J', 'N', 'S', 'W')));
+        textGrid.add(new ArrayList<>(Arrays.asList('G', 'K', 'O', 'T', 'X')));
+        textGrid.add(new ArrayList<>(Arrays.asList('G', 'L', 'P', 'U', 'Y')));
+        textGrid.add(new ArrayList<>(Arrays.asList('I', 'M', 'Q', 'V', 'Z')));
+    }
+
+    private void applyCellStyle(TextView textView) {
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams((int) resources.getDimension(R.dimen.game_cell_size), (int) resources.getDimension(R.dimen.game_cell_size));
+        layoutParams.setMargins(4, 4, 4, 4);
+        textView.setLayoutParams(layoutParams);
+        textView.setBackgroundColor(getResources().getColor(R.color.teal_700));
+        textView.setTextSize((int) resources.getDimension(R.dimen.game_cell_text_size));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(resources.getColor(R.color.white));
+    }
+
+    private void applyRowStyle(TableRow tableRow) {
+        TableLayout.LayoutParams rowLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        tableRow.setLayoutParams(rowLayoutParams);
     }
 
     class PlayGameKeyboardEventListener implements KeyboardEventListener {
         @Override
         public void onAlphaKeyPressed(char alphabet) {
-
+            if (cellInFocus == 5) {
+                return;
+            }
+            textViewGridCache.get(rowInFocus).get(cellInFocus).setText(String.valueOf(alphabet));
+            textGrid.get(rowInFocus).set(cellInFocus, Character.toUpperCase(alphabet));
+            cellInFocus++;
         }
 
         @Override
         public void onBackKeyPressed() {
-
+            if (cellInFocus == 0) {
+                return;
+            }
+            cellInFocus--;
+            textViewGridCache.get(rowInFocus).get(cellInFocus).setText("");
         }
 
         @Override
         public void onEnterKeyPressed() {
-
+            getWord().ifPresent(word -> {
+                if (Utils.isWordValid(word)) {
+                    if (rowInFocus == 5) {
+                        return;
+                    }
+                    rowInFocus++;
+                    cellInFocus = 0;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Invalid Word", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

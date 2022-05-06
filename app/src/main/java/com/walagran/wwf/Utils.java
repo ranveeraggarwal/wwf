@@ -14,4 +14,8 @@ public class Utils {
         theme.resolveAttribute(attributeId, typedValue, true);
         return typedValue.data;
     }
+
+    public static Boolean isWordValid(String word) {
+        return word.equals("FLASH");
+    }
 }

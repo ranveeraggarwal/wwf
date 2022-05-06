@@ -60,7 +60,7 @@ public class KeyboardFragment extends Fragment {
                                     .getContext()
                                     .getPackageName()))
                     .setOnClickListener(view -> keyboardEventListener
-                            .onAlphaKeyPressed(passedAlphabet));
+                            .onAlphaKeyPressed(Character.toUpperCase(passedAlphabet)));
         }
 
         rootView.findViewById(R.id.key_back).setOnClickListener(view -> keyboardEventListener.onBackKeyPressed());

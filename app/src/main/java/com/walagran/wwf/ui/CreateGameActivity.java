@@ -21,7 +21,7 @@ public class CreateGameActivity extends AppCompatActivity {
     KeyboardEventListener keyboardEventListener = new CreateGameKeyboardEventListener();
     ArrayList<TextView> letterViews = new ArrayList<>();
     ArrayList<Character> createdWord = new ArrayList<>(Arrays.asList('F', 'L', 'A', 'S', 'H'));
-    int focusedLetter = 0;
+    int cellInFocus = 0;
     int gameId = 0;
 
 
@@ -58,7 +58,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private Optional<String> getWord() {
-        return (focusedLetter == 5) ? Optional.of(TextUtils.join("", createdWord)) : Optional.empty();
+        return (cellInFocus == 5) ? Optional.of(TextUtils.join("", createdWord)) : Optional.empty();
     }
 
     private void initializeLetterViews() {
@@ -85,21 +85,21 @@ public class CreateGameActivity extends AppCompatActivity {
     class CreateGameKeyboardEventListener implements KeyboardEventListener {
         @Override
         public void onAlphaKeyPressed(char alphabet) {
-            if (focusedLetter == 5) {
+            if (cellInFocus == 5) {
                 return;
             }
-            letterViews.get(focusedLetter).setText(String.valueOf(alphabet));
-            createdWord.set(focusedLetter, Character.toUpperCase(alphabet));
-            focusedLetter++;
+            letterViews.get(cellInFocus).setText(String.valueOf(alphabet));
+            createdWord.set(cellInFocus, Character.toUpperCase(alphabet));
+            cellInFocus++;
         }
 
         @Override
         public void onBackKeyPressed() {
-            if (focusedLetter == 0) {
+            if (cellInFocus == 0) {
                 return;
             }
-            focusedLetter--;
-            letterViews.get(focusedLetter).setText("");
+            cellInFocus--;
+            letterViews.get(cellInFocus).setText("");
         }
 
         @Override
