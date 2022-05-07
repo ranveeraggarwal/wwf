@@ -1,9 +1,11 @@
 package com.walagran.wwf.ui;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,6 +20,11 @@ import com.walagran.wwf.ui.common.ControlsBar;
 import com.walagran.wwf.ui.common.KeyboardEventListener;
 import com.walagran.wwf.ui.common.KeyboardFragment;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -117,6 +124,9 @@ public class GameActivity extends AppCompatActivity {
     class PlayGameKeyboardEventListener implements KeyboardEventListener {
         @Override
         public void onAlphaKeyPressed(char alphabet) {
+            if (rowInFocus == 5) {
+                return;
+            }
             if (cellInFocus == 5) {
                 return;
             }
@@ -127,6 +137,9 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onBackKeyPressed() {
+            if (rowInFocus == 5) {
+                return;
+            }
             if (cellInFocus == 0) {
                 return;
             }
@@ -137,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onEnterKeyPressed() {
             getWord().ifPresent(word -> {
-                if (Utils.isWordValid(word)) {
+                if (Utils.isWordValid(getApplicationContext(), word)) {
                     if (rowInFocus == 5) {
                         return;
                     }
