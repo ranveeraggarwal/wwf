@@ -1,11 +1,9 @@
 package com.walagran.wwf.ui;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -20,22 +18,17 @@ import com.walagran.wwf.ui.common.ControlsBar;
 import com.walagran.wwf.ui.common.KeyboardEventListener;
 import com.walagran.wwf.ui.common.KeyboardFragment;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class GameActivity extends AppCompatActivity {
-    private Resources resources;
-    private String packageName;
-
     private final KeyboardEventListener keyboardEventListener = new PlayGameKeyboardEventListener();
     private final ArrayList<ArrayList<TextView>> textViewGridCache = new ArrayList<>();
     private final ArrayList<ArrayList<Character>> textGrid = new ArrayList<>();
+    private final String correctWord = "FLASH";
+    private Resources resources;
+    private String packageName;
     private int rowInFocus = 0;
     private int cellInFocus = 0;
 
@@ -44,7 +37,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        resources =  getResources();
+        resources = getResources();
         packageName = getPackageName();
 
         setUpFragments();
@@ -110,7 +103,7 @@ public class GameActivity extends AppCompatActivity {
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams((int) resources.getDimension(R.dimen.game_cell_size), (int) resources.getDimension(R.dimen.game_cell_size));
         layoutParams.setMargins(4, 4, 4, 4);
         textView.setLayoutParams(layoutParams);
-        textView.setBackgroundColor(getResources().getColor(R.color.teal_700));
+        textView.setBackgroundColor(resources.getColor(R.color.orange));
         textView.setTextSize((int) resources.getDimension(R.dimen.game_cell_text_size));
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(resources.getColor(R.color.white));
@@ -119,6 +112,31 @@ public class GameActivity extends AppCompatActivity {
     private void applyRowStyle(TableRow tableRow) {
         TableLayout.LayoutParams rowLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
         tableRow.setLayoutParams(rowLayoutParams);
+    }
+
+    private void highlightLetters() {
+        char[] word = correctWord.toCharArray();
+        boolean[] marked = {false, false, false, false, false};
+        for (int i = 0; i < 5; i++) {
+            char currentLetter = textGrid.get(rowInFocus).get(i);
+            if (currentLetter == word[i]) {
+                textViewGridCache.get(rowInFocus).get(i).setBackgroundColor(resources.getColor(R.color.green));
+                word[i] = '1';
+                marked[i] = true;
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            if (marked[i]) continue;
+            char currentLetter = textGrid.get(rowInFocus).get(i);
+            for (int j = 0; j < 5; j++) {
+                if (currentLetter == word[j]) {
+                    textViewGridCache.get(rowInFocus).get(i).setBackgroundColor(resources.getColor(R.color.yellow));
+                    word[j] = '1';
+                    marked[i] = true;
+                    break;
+                }
+            }
+        }
     }
 
     class PlayGameKeyboardEventListener implements KeyboardEventListener {
@@ -154,6 +172,7 @@ public class GameActivity extends AppCompatActivity {
                     if (rowInFocus == 5) {
                         return;
                     }
+                    highlightLetters();
                     rowInFocus++;
                     cellInFocus = 0;
                 } else {

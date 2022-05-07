@@ -39,7 +39,6 @@ public class Utils {
             e.printStackTrace();
         }
         ArrayList<String> words = new ArrayList<>(Arrays.asList(wordLine.split(",")));
-        Log.e("SOMETHING", words.get(0));
         return words.contains(word.toLowerCase(Locale.ENGLISH));
     }
 }
