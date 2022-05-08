@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginVertical="64dp"
         android:orientation="vertical"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -37,28 +37,20 @@
             android:layout_marginBottom="96dp"
             android:textStyle="bold"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/create_game"
-            style="@style/Widget.Material3.Button.UnelevatedButton"
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home_create_game"
-            android:layout_marginBottom="64dp"
-            android:textSize="16sp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            app:hintTextColor="@color/orange"
-            app:counterMaxLength="5"
-            app:counterEnabled="true">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/game_code"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/game_code"
-                android:textColor="@color/orange"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="48dp"
+            android:autofillHints="Game Code"
+            android:inputType="textCapWords"
+            android:textAllCaps="true"
+            android:layout_gravity="center"
+            android:cursorVisible="false"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:background="@drawable/custom_edit_text"
+            android:textColor="@color/background"
+            android:id="@+id/game_code"
+            tools:ignore="LabelFor" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/play_game"
@@ -66,6 +58,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/home_play_with_code"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_game"
+            style="@style/Widget.Material3.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_create_game"
+            android:layout_marginVertical="64dp"
             android:textSize="16sp" />
 
     </LinearLayout>
