@@ -23,13 +23,14 @@
         android:layout_height="wrap_content"
         android:text="@string/game_title_placeholder"
         android:textSize="18sp"
+        android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/settings"
+        app:layout_constraintEnd_toStartOf="@id/control_bar_settings"
         app:layout_constraintStart_toEndOf="@id/control_bar_home"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/settings"
+        android:id="@+id/control_bar_settings"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

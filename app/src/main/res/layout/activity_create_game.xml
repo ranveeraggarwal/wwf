@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.CreateGameActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/controlsBar"
+        android:id="@+id/create_game_controls_bar"
         android:name="com.walagran.wwf.ui.common.ControlsBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/createdWord"
+        android:id="@+id/create_game_created_word"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,32 +25,32 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/controlsBar">
+        app:layout_constraintTop_toBottomOf="@id/create_game_controls_bar">
 
         <TextView
-            android:id="@+id/create_letter_1"
-            style="@style/CreateGameLetter" />
+            android:id="@+id/create_game_created_letter_1"
+            style="@style/create_game_created_letter" />
 
         <TextView
-            android:id="@+id/create_letter_2"
-            style="@style/CreateGameLetter" />
+            android:id="@+id/create_game_created_letter_2"
+            style="@style/create_game_created_letter" />
 
         <TextView
-            android:id="@+id/create_letter_3"
-            style="@style/CreateGameLetter" />
+            android:id="@+id/create_game_created_letter_3"
+            style="@style/create_game_created_letter" />
 
         <TextView
-            android:id="@+id/create_letter_4"
-            style="@style/CreateGameLetter" />
+            android:id="@+id/create_game_created_letter_4"
+            style="@style/create_game_created_letter" />
 
         <TextView
-            android:id="@+id/create_letter_5"
-            style="@style/CreateGameLetter" />
+            android:id="@+id/create_game_created_letter_5"
+            style="@style/create_game_created_letter" />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/shareGame"
+        android:id="@+id/create_game_share_button"
         style="@style/Widget.Material3.Button.UnelevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +59,7 @@
         app:layout_constraintBottom_toTopOf="@+id/create_game_keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createdWord" />
+        app:layout_constraintTop_toBottomOf="@id/create_game_created_word" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/create_game_keyboard"

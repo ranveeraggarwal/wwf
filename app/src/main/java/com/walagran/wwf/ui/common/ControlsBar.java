@@ -3,18 +3,17 @@ package com.walagran.wwf.ui.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.walagran.wwf.ui.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.walagran.wwf.R;
+import com.walagran.wwf.ui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,11 +39,12 @@ public class ControlsBar extends Fragment {
      * Controls Bar Factory with all the parameters.
      *
      * @param controlBarTitle Title shown on the control bar.
-     * @param showHome Whether the home button must be shown.
-     * @param showTitle Whether the title must be shown.
+     * @param showHome        Whether the home button must be shown.
+     * @param showTitle       Whether the title must be shown.
      * @return A new instance of fragment ControlsBar.
      */
-    public static ControlsBar newInstance(String controlBarTitle, boolean showHome, boolean showTitle) {
+    public static ControlsBar newInstance(String controlBarTitle,
+                                          boolean showHome, boolean showTitle) {
         ControlsBar fragment = new ControlsBar();
         Bundle args = new Bundle();
         args.putString(CONTROL_BAR_TITLE, controlBarTitle);
@@ -72,7 +72,8 @@ public class ControlsBar extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            controlBarTitle = getArguments().getString(CONTROL_BAR_TITLE, "Control Bar");
+            controlBarTitle = getArguments().getString(CONTROL_BAR_TITLE,
+                    "Control Bar");
             showHome = getArguments().getBoolean(SHOW_HOME, true);
             showTitle = getArguments().getBoolean(SHOW_TITLE, true);
         }
@@ -88,15 +89,19 @@ public class ControlsBar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_controls_bar, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_controls_bar,
+                container, false);
 
-        TextView controlBarTitleView = rootView.findViewById(R.id.control_bar_title);
+        TextView controlBarTitleView =
+                rootView.findViewById(R.id.control_bar_title);
         controlBarTitleView.setText(controlBarTitle);
         controlBarTitleView.setVisibility(showTitle ? View.VISIBLE : View.GONE);
 
-        Button controlBarHomeButtonView = rootView.findViewById(R.id.control_bar_home);
+        Button controlBarHomeButtonView =
+                rootView.findViewById(R.id.control_bar_home);
         controlBarHomeButtonView.setOnClickListener(this::onHomeButtonClicked);
-        controlBarHomeButtonView.setVisibility(showHome ? View.VISIBLE : View.GONE);
+        controlBarHomeButtonView.setVisibility(showHome ? View.VISIBLE :
+                View.GONE);
 
         return rootView;
     }

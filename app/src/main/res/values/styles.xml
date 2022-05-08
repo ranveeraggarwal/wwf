@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CreateGameLetter">
+    <style name="create_game_created_letter">
         <item name="android:layout_width">64dp</item>
         <item name="android:layout_height">64dp</item>
         <item name="android:layout_margin">4dp</item>
-        <item name="android:background">?attr/colorSecondary</item>
+        <item name="android:background">@color/orange</item>
         <item name="android:textSize">48sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
-    <style name="KeyboardKeyStyle">
+    <style name="keyboard_key_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">0dp</item>
@@ -21,7 +21,7 @@
         <item name="cornerRadius">8dp</item>
         <item name="android:gravity">center</item>
     </style>
-    <style name="KeyboardBigKeyStyle" parent="KeyboardKeyStyle">
+    <style name="keyboard_big_key_style" parent="keyboard_key_style">
         <item name="android:minWidth">48dp</item>
     </style>
 </resources>

@@ -13,11 +13,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.walagran.wwf.R;
 import com.walagran.wwf.Utils;
 import com.walagran.wwf.ui.common.ControlsBar;
@@ -48,23 +45,13 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras != null) {
-                correctWord = extras.getString("GAME_CODE");
-            }
-        } else {
-            correctWord = (String) savedInstanceState.getSerializable("GAME_CODE");
-        }
-
-        correctWord = correctWord.toUpperCase(Locale.ROOT);
-
         context = getApplicationContext();
         resources = getResources();
         packageName = getPackageName();
 
         setUpFragments();
         createGrid();
+        getGameCode(savedInstanceState);
     }
 
     @Override
@@ -75,16 +62,31 @@ public class GameActivity extends AppCompatActivity {
         finish();
     }
 
+    private void getGameCode(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                correctWord = extras.getString("GAME_CODE");
+            }
+        } else {
+            correctWord = (String) savedInstanceState.getSerializable(
+                    "GAME_CODE");
+        }
+
+        correctWord = correctWord.toUpperCase(Locale.ROOT);
+    }
+
     private void setUpFragments() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.controlsBar, ControlsBar.newInstance("Phineas's" +
-                        " Game 4"))
+                .replace(R.id.play_game_controls_bar,
+                        ControlsBar.newInstance("Phineas's" +
+                                " Game 4"))
                 .commit();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.game_keyboard,
+                .replace(R.id.play_game_keyboard,
                         KeyboardFragment.newInstance(keyboardEventListener))
                 .commit();
     }
@@ -95,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void createGrid() {
-        TableLayout layoutGrid = findViewById(R.id.gameTable);
+        TableLayout layoutGrid = findViewById(R.id.play_game_table);
         for (int i = 1; i < 6; i++) {
             ArrayList<TextView> textViewGridCacheRow = new ArrayList<>();
             TableRow layoutRow = new TableRow(this);
@@ -171,11 +173,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void endGame(boolean win) {
-        TextView endGameText = findViewById(R.id.endGameText);
+        TextView endGameText = findViewById(R.id.play_game_end_game_text);
         endGameText.setText(win ? "YOU WON!" : "BETTER LUCK NEXT TIME ...");
         endGameText.setVisibility(View.VISIBLE);
 
-        FrameLayout shareButtons = findViewById(R.id.share_buttons);
+        FrameLayout shareButtons = findViewById(R.id.play_game_share_buttons);
         shareButtons.setVisibility(View.VISIBLE);
 
         gameEnded = true;

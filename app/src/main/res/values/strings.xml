@@ -35,4 +35,6 @@
     <string name="key_n">N</string>
     <string name="key_m">M</string>
     <string name="key_enter">ENTER</string>
+    <string name="wordle_with_friends">Wordle With Friends</string>
+    <string name="game_code">Game Code</string>
 </resources>

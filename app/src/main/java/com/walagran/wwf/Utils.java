@@ -3,7 +3,6 @@ package com.walagran.wwf;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.util.Log;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
@@ -32,13 +31,15 @@ public class Utils {
         String wordLine = "";
         try {
             wordList = assetManager.open("words.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(wordList));
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(wordList));
             wordLine = reader.readLine();
             wordList.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(wordLine.split(",")));
+        ArrayList<String> words =
+                new ArrayList<>(Arrays.asList(wordLine.split(",")));
         return words.contains(word.toLowerCase(Locale.ENGLISH));
     }
 }

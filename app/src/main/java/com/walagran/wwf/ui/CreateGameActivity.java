@@ -18,9 +18,11 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class CreateGameActivity extends AppCompatActivity {
-    KeyboardEventListener keyboardEventListener = new CreateGameKeyboardEventListener();
+    KeyboardEventListener keyboardEventListener =
+            new CreateGameKeyboardEventListener();
     ArrayList<TextView> letterViews = new ArrayList<>();
-    ArrayList<Character> createdWord = new ArrayList<>(Arrays.asList('F', 'L', 'A', 'S', 'H'));
+    ArrayList<Character> createdWord = new ArrayList<>(Arrays.asList('F', 'L'
+            , 'A', 'S', 'H'));
     int cellInFocus = 0;
     int gameId = 0;
 
@@ -44,13 +46,14 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void initializeButtons() {
-        Button shareButton = findViewById(R.id.shareGame);
+        Button shareButton = findViewById(R.id.create_game_share_button);
         shareButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("text/plain");
             getWord().ifPresent(word -> {
-                intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing Game #%s", gameId));
+                intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing " +
+                        "Game #%s", gameId));
                 intent.putExtra(Intent.EXTRA_TEXT, word);
                 startActivity(Intent.createChooser(intent, "Word"));
             });
@@ -58,14 +61,16 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private Optional<String> getWord() {
-        return (cellInFocus == 5) ? Optional.of(TextUtils.join("", createdWord)) : Optional.empty();
+        return (cellInFocus == 5) ? Optional.of(TextUtils.join("",
+                createdWord)) : Optional.empty();
     }
 
     private void initializeLetterViews() {
-        for(int i=1; i<6; i++) {
+        for (int i = 1; i < 6; i++) {
             letterViews
                     .add(findViewById(getResources()
-                            .getIdentifier("create_letter_"+i, "id",
+                            .getIdentifier("create_game_created_letter_" + i,
+                                    "id",
                                     getPackageName())));
         }
     }
@@ -73,12 +78,15 @@ public class CreateGameActivity extends AppCompatActivity {
     private void setUpFragments() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.controlsBar, ControlsBar.newInstance(String.format("Creating Game %s", gameId)))
+                .replace(R.id.create_game_controls_bar,
+                        ControlsBar.newInstance(String.format("Creating Game " +
+                                "%s", gameId)))
                 .commit();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.create_game_keyboard, KeyboardFragment.newInstance(keyboardEventListener))
+                .replace(R.id.create_game_keyboard,
+                        KeyboardFragment.newInstance(keyboardEventListener))
                 .commit();
     }
 
