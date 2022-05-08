@@ -26,6 +26,7 @@ import com.walagran.wwf.ui.common.KeyboardFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
 public class GameActivity extends AppCompatActivity {
@@ -34,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
     private final ArrayList<ArrayList<TextView>> textViewGridCache =
             new ArrayList<>();
     private final ArrayList<ArrayList<Character>> textGrid = new ArrayList<>();
-    private final String correctWord = "FLASH";
+    private String correctWord = "FLASH";
     private Context context;
     private Resources resources;
     private String packageName;
@@ -46,6 +47,17 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                correctWord = extras.getString("GAME_CODE");
+            }
+        } else {
+            correctWord = (String) savedInstanceState.getSerializable("GAME_CODE");
+        }
+
+        correctWord = correctWord.toUpperCase(Locale.ROOT);
 
         context = getApplicationContext();
         resources = getResources();

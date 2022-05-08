@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.walagran.wwf.R;
 import com.walagran.wwf.ui.CreateGameActivity;
@@ -32,9 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
         Button playGameButton = findViewById(R.id.play_game);
         playGameButton.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-            startActivity(intent);
-            finish();
+            String gameCode = ((EditText) findViewById(R.id.game_code)).getText().toString();
+            if (gameCode.length() == 5) {
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                intent.putExtra("GAME_CODE", gameCode);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 }
