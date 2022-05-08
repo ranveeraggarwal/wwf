@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.walagran.wwf.R;
 import com.walagran.wwf.Utils;
@@ -156,6 +159,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void endGame(boolean win) {
+        TextView endGameText = findViewById(R.id.endGameText);
+        endGameText.setText(win ? "YOU WON!" : "BETTER LUCK NEXT TIME ...");
+        endGameText.setVisibility(View.VISIBLE);
+
+        FrameLayout shareButtons = findViewById(R.id.share_buttons);
+        shareButtons.setVisibility(View.VISIBLE);
+
         gameEnded = true;
     }
 
