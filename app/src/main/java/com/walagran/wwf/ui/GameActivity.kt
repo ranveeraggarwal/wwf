@@ -1,9 +1,9 @@
 package com.walagran.wwf.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -18,37 +18,30 @@ import java.util.*
 class GameActivity : AppCompatActivity() {
     private val keyboardEventListener: KeyboardEventListener =
         PlayGameKeyboardEventListener()
+
     private val textViewGridCache = ArrayList<ArrayList<TextView>>()
     private val textGrid = ArrayList<ArrayList<Char>>()
-    private var correctWord: String? = "FLASH"
-    private var context: Context? = null
+
+    private var correctWord: String = ""
+
     private var rowInFocus = 0
     private var cellInFocus = 0
+
     private var gameEnded = false
 
     // ⬛🟨🟩
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        context = applicationContext
+
         setUpFragments()
         createGrid()
+
         getGameCode(savedInstanceState)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        handleIntent(intent)
-    }
-
-    private fun handleIntent(intent: Intent): Boolean {
-        val appLinkAction = intent.action
-        val appLinkData = intent.data
-        if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-            correctWord = appLinkData.lastPathSegment
-            return true
-        }
-        return false
     }
 
     override fun onBackPressed() {
@@ -58,20 +51,28 @@ class GameActivity : AppCompatActivity() {
         finish()
     }
 
+    /**
+     * Gets the game code from an intent. This could either be from a URL or from a parameter.
+     */
     private fun getGameCode(savedInstanceState: Bundle?) {
-        if (handleIntent(intent)) {
-            return
-        }
-        if (savedInstanceState == null) {
-            val extras = intent.extras
-            if (extras != null) {
-                correctWord = extras.getString("GAME_CODE")
+        if (intent.action == Intent.ACTION_VIEW) {
+            // We are here from a URL.
+                // ToDo: Do some more validation here
+            if (intent.data != null) {
+                correctWord = intent.data!!.lastPathSegment!!
             }
         } else {
-            correctWord = savedInstanceState.getSerializable(
-                "GAME_CODE") as String?
+            if (savedInstanceState == null) {
+                val extras = intent.extras
+                if (extras != null) {
+                    correctWord = extras.getString("GAME_CODE")!!
+                }
+            } else {
+                correctWord = savedInstanceState.getSerializable("GAME_CODE") as String
+            }
         }
-        correctWord = correctWord!!.uppercase()
+
+        correctWord = correctWord.uppercase()
     }
 
     private fun setUpFragments() {
@@ -113,11 +114,11 @@ class GameActivity : AppCompatActivity() {
         }
 
         // Initialize fake values
-        textGrid.add(ArrayList(Arrays.asList('A', 'B', 'C', 'R', 'E')))
-        textGrid.add(ArrayList(Arrays.asList('F', 'J', 'N', 'S', 'W')))
-        textGrid.add(ArrayList(Arrays.asList('G', 'K', 'O', 'T', 'X')))
-        textGrid.add(ArrayList(Arrays.asList('G', 'L', 'P', 'U', 'Y')))
-        textGrid.add(ArrayList(Arrays.asList('I', 'M', 'Q', 'V', 'Z')))
+        textGrid.add(ArrayList(listOf('A', 'B', 'C', 'R', 'E')))
+        textGrid.add(ArrayList(listOf('F', 'J', 'N', 'S', 'W')))
+        textGrid.add(ArrayList(listOf('G', 'K', 'O', 'T', 'X')))
+        textGrid.add(ArrayList(listOf('G', 'L', 'P', 'U', 'Y')))
+        textGrid.add(ArrayList(listOf('I', 'M', 'Q', 'V', 'Z')))
     }
 
     private fun applyCellStyle(textView: TextView) {
@@ -142,7 +143,8 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun highlightLetters() {
-        val word: CharArray = correctWord!!.toCharArray()
+        val word: CharArray = correctWord.toCharArray()
+        Log.d("Something", correctWord)
         val marked = booleanArrayOf(false, false, false, false, false)
         for (i in 0..4) {
             val currentLetter = textGrid[rowInFocus][i]
@@ -206,7 +208,7 @@ class GameActivity : AppCompatActivity() {
                 if (word == correctWord) {
                     endGame(true)
                 }
-                if (Utils.isWordValid(context, word)) {
+                if (Utils.isWordValid(applicationContext, word)) {
                     highlightLetters()
                     rowInFocus++
                     cellInFocus = 0
