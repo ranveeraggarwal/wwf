@@ -96,11 +96,11 @@ class GameActivity : AppCompatActivity() {
             val textViewGridCacheRow = ArrayList<TextView>()
             val layoutRow = TableRow(this)
             applyRowStyle(layoutRow)
-            layoutRow.id = resources!!.getIdentifier("game_row_$i", "id",
+            layoutRow.id = resources.getIdentifier("game_row_$i", "id",
                 packageName)
             for (j in 1..5) {
                 val cell = TextView(this)
-                cell.id = resources!!.getIdentifier("game_cell_$i$j",
+                cell.id = resources.getIdentifier("game_cell_$i$j",
                     "id", packageName)
                 applyCellStyle(cell)
                 layoutRow.addView(cell)
