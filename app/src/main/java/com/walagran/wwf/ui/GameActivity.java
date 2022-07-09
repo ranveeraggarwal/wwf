@@ -3,6 +3,7 @@ package com.walagran.wwf.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -54,6 +55,21 @@ public class GameActivity extends AppCompatActivity {
         getGameCode(savedInstanceState);
     }
 
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private boolean handleIntent(Intent intent) {
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            correctWord = appLinkData.getLastPathSegment();
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -63,6 +79,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void getGameCode(Bundle savedInstanceState) {
+        if (handleIntent(getIntent())) {
+            return;
+        }
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
@@ -135,10 +154,10 @@ public class GameActivity extends AppCompatActivity {
                         .LayoutParams((int) resources.getDimension(R.dimen.game_cell_size), (int) resources.getDimension(R.dimen.game_cell_size));
         layoutParams.setMargins(4, 4, 4, 4);
         textView.setLayoutParams(layoutParams);
-        textView.setBackgroundColor(resources.getColor(R.color.orange));
+        textView.setBackgroundColor(resources.getColor(R.color.white));
         textView.setTextSize((int) resources.getDimension(R.dimen.game_cell_text_size));
         textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(resources.getColor(R.color.white));
+        textView.setTextColor(resources.getColor(R.color.black));
     }
 
     private void applyRowStyle(TableRow tableRow) {

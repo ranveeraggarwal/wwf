@@ -16,9 +16,7 @@ import com.walagran.wwf.R;
 import com.walagran.wwf.ui.MainActivity;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ControlsBar#newInstance} factory method to
- * create an instance of this fragment.
+ * A UI element on the top of each activity for common controls.
  */
 public class ControlsBar extends Fragment {
     private static final String CONTROL_BAR_TITLE = "ControlBarTitleParam";
@@ -75,7 +73,7 @@ public class ControlsBar extends Fragment {
             controlBarTitle = getArguments().getString(CONTROL_BAR_TITLE,
                     "Control Bar");
             showHome = getArguments().getBoolean(SHOW_HOME, true);
-            showTitle = getArguments().getBoolean(SHOW_TITLE, true);
+            showTitle = getArguments().getBoolean(SHOW_TITLE, false);
         }
     }
 

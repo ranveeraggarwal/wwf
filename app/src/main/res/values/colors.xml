@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#2a9d8f</color>
     <color name="red">#e76f51</color>
-    <color name="background">#264653</color>
+    <color name="background">#000000</color>
     <color name="yellow">#e9c46a</color>
-    <color name="orange">#f4a261</color>
+    <color name="orange">#ffffff</color>
 </resources>

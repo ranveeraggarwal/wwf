@@ -3,6 +3,7 @@ package com.walagran.wwf.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Optional<String> getGameCode() {
+        EditText gameCodeEditText = findViewById(R.id.game_code);
+        gameCodeEditText.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         String gameCode =
-                ((EditText) findViewById(R.id.game_code)).getText().toString();
+                gameCodeEditText.getText().toString();
         if (gameCode.length() == 5 && Utils.isWordValid(context, gameCode)) {
             return Optional.of(gameCode);
         }

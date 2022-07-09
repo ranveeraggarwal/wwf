@@ -10,9 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.walagran.wwf.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link KeyboardFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A dumb QWERTY keyboard with enter and back key.
  */
 public class KeyboardFragment extends Fragment {
 

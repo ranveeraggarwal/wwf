@@ -17,14 +17,6 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class Utils {
-    public static @ColorInt
-    int getColorFromAttribute(Context context, @AttrRes int attributeId) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(attributeId, typedValue, true);
-        return typedValue.data;
-    }
-
     public static Boolean isWordValid(Context context, String word) {
         AssetManager assetManager = context.getAssets();
         InputStream wordList;

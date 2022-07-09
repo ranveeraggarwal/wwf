@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:autofillHints="Game Code"
-            android:inputType="textCapWords"
+            android:inputType="textCapCharacters"
             android:textAllCaps="true"
             android:layout_gravity="center"
             android:cursorVisible="false"
