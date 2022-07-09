@@ -40,6 +40,8 @@ public class GameActivity extends AppCompatActivity {
     private int rowInFocus = 0;
     private int cellInFocus = 0;
     private boolean gameEnded = false;
+    // ⬛🟨🟩
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
