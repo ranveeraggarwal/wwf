@@ -34,10 +34,12 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        // Game UI Setup.
         setUpFragments()
         createGrid()
 
-        getGameCode(savedInstanceState)
+        // Fetch the correct word from intents.
+        getCorrectWord(savedInstanceState)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -51,36 +53,11 @@ class GameActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Gets the game code from an intent. This could either be from a URL or from a parameter.
-     */
-    private fun getGameCode(savedInstanceState: Bundle?) {
-        if (intent.action == Intent.ACTION_VIEW) {
-            // We are here from a URL.
-                // ToDo: Do some more validation here
-            if (intent.data != null) {
-                correctWord = intent.data!!.lastPathSegment!!
-            }
-        } else {
-            if (savedInstanceState == null) {
-                val extras = intent.extras
-                if (extras != null) {
-                    correctWord = extras.getString("GAME_CODE")!!
-                }
-            } else {
-                correctWord = savedInstanceState.getSerializable("GAME_CODE") as String
-            }
-        }
-
-        correctWord = correctWord.uppercase()
-    }
-
     private fun setUpFragments() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.play_game_controls_bar,
-                ControlsBar.newInstance("Phineas's" +
-                        " Game 4"))
+                ControlsBar.newInstance(""))
             .commit()
         supportFragmentManager
             .beginTransaction()
@@ -89,11 +66,31 @@ class GameActivity : AppCompatActivity() {
             .commit()
     }
 
-    private val word: Optional<String>
-        get() = if (cellInFocus == 5) Optional.of(TextUtils.join("",
-            textGrid[rowInFocus])) else Optional.empty()
-
+    /**
+     * Creates a text view grid with empty boxes and legit IDs. Also populates a grid for the actual input characters.
+     */
     private fun createGrid() {
+        fun applyCellStyle(textView: TextView) {
+            val layoutParams = TableRow.LayoutParams(
+                resources!!.getDimension(R.dimen.game_cell_size).toInt(),
+                resources!!.getDimension(R.dimen.game_cell_size)
+                    .toInt())
+            layoutParams.setMargins(4, 4, 4, 4)
+            textView.layoutParams = layoutParams
+            textView.setBackgroundColor(resources!!.getColor(R.color.white))
+            textView.textSize =
+                resources!!.getDimension(R.dimen.game_cell_text_size)
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(resources!!.getColor(R.color.black))
+        }
+
+        fun applyRowStyle(tableRow: TableRow) {
+            val rowLayoutParams =
+                TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT)
+            tableRow.layoutParams = rowLayoutParams
+        }
+
         val layoutGrid = findViewById<TableLayout>(R.id.play_game_table)
         for (i in 1..5) {
             val textViewGridCacheRow = ArrayList<TextView>()
@@ -121,63 +118,29 @@ class GameActivity : AppCompatActivity() {
         textGrid.add(ArrayList(listOf('I', 'M', 'Q', 'V', 'Z')))
     }
 
-    private fun applyCellStyle(textView: TextView) {
-        val layoutParams = TableRow.LayoutParams(
-            resources!!.getDimension(R.dimen.game_cell_size).toInt(),
-            resources!!.getDimension(R.dimen.game_cell_size)
-                .toInt())
-        layoutParams.setMargins(4, 4, 4, 4)
-        textView.layoutParams = layoutParams
-        textView.setBackgroundColor(resources!!.getColor(R.color.white))
-        textView.textSize =
-            resources!!.getDimension(R.dimen.game_cell_text_size)
-        textView.gravity = Gravity.CENTER
-        textView.setTextColor(resources!!.getColor(R.color.black))
-    }
-
-    private fun applyRowStyle(tableRow: TableRow) {
-        val rowLayoutParams =
-            TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,
-                TableLayout.LayoutParams.WRAP_CONTENT)
-        tableRow.layoutParams = rowLayoutParams
-    }
-
-    private fun highlightLetters() {
-        val word: CharArray = correctWord.toCharArray()
-        Log.d("Something", correctWord)
-        val marked = booleanArrayOf(false, false, false, false, false)
-        for (i in 0..4) {
-            val currentLetter = textGrid[rowInFocus][i]
-            if (currentLetter == word[i]) {
-                textViewGridCache[rowInFocus][i].setBackgroundColor(
-                    resources!!.getColor(R.color.green))
-                word[i] = '1'
-                marked[i] = true
+    /**
+     * Gets the game code from an intent. This could either be from a URL or from a parameter.
+     */
+    private fun getCorrectWord(savedInstanceState: Bundle?) {
+        if (intent.action == Intent.ACTION_VIEW) {
+            // We are here from a URL.
+            if (intent.data != null) {
+                // ToDo: Do some more validation here
+                correctWord = intent.data!!.lastPathSegment!!
             }
-        }
-        for (i in 0..4) {
-            if (marked[i]) continue
-            val currentLetter = textGrid[rowInFocus][i]
-            for (j in 0..4) {
-                if (currentLetter == word[j]) {
-                    textViewGridCache[rowInFocus][i].setBackgroundColor(
-                        resources!!.getColor(R.color.yellow))
-                    word[j] = '1'
-                    marked[i] = true
-                    break
+        } else {
+            if (savedInstanceState == null) {
+                val extras = intent.extras
+                if (extras != null) {
+                    correctWord = extras.getString("GAME_CODE")!!
                 }
+            } else {
+                correctWord =
+                    savedInstanceState.getSerializable("GAME_CODE") as String
             }
         }
-    }
 
-    private fun endGame(win: Boolean) {
-        val endGameText = findViewById<TextView>(R.id.play_game_end_game_text)
-        endGameText.text = if (win) "YOU WON!" else "BETTER LUCK NEXT TIME ..."
-        endGameText.visibility = View.VISIBLE
-        val shareButtons =
-            findViewById<FrameLayout>(R.id.play_game_share_buttons)
-        shareButtons.visibility = View.VISIBLE
-        gameEnded = true
+        correctWord = correctWord.uppercase()
     }
 
     internal inner class PlayGameKeyboardEventListener : KeyboardEventListener {
@@ -201,10 +164,53 @@ class GameActivity : AppCompatActivity() {
         }
 
         override fun onEnterKeyPressed() {
+            fun highlightLetters() {
+                val word: CharArray = correctWord.toCharArray()
+                Log.d("Something", correctWord)
+                val marked = booleanArrayOf(false, false, false, false, false)
+                for (i in 0..4) {
+                    val currentLetter = textGrid[rowInFocus][i]
+                    if (currentLetter == word[i]) {
+                        textViewGridCache[rowInFocus][i].setBackgroundColor(
+                            resources!!.getColor(R.color.green))
+                        word[i] = '1'
+                        marked[i] = true
+                    }
+                }
+                for (i in 0..4) {
+                    if (marked[i]) continue
+                    val currentLetter = textGrid[rowInFocus][i]
+                    for (j in 0..4) {
+                        if (currentLetter == word[j]) {
+                            textViewGridCache[rowInFocus][i].setBackgroundColor(
+                                resources!!.getColor(R.color.yellow))
+                            word[j] = '1'
+                            marked[i] = true
+                            break
+                        }
+                    }
+                }
+            }
+
+            fun endGame(win: Boolean) {
+                val endGameText = findViewById<TextView>(R.id.play_game_end_game_text)
+                endGameText.text = if (win) "YOU WON!" else "BETTER LUCK NEXT TIME ..."
+                endGameText.visibility = View.VISIBLE
+                val shareButtons =
+                    findViewById<FrameLayout>(R.id.play_game_share_buttons)
+                shareButtons.visibility = View.VISIBLE
+                gameEnded = true
+            }
+
+            fun getWordFromRowInFocus(): Optional<String> {
+                return if (cellInFocus == 5) Optional.of(TextUtils.join("",
+                    textGrid[rowInFocus])) else Optional.empty()
+            }
+
             if (gameEnded || rowInFocus == 5) {
                 return
             }
-            word.ifPresent { word: String ->
+            getWordFromRowInFocus().ifPresent { word: String ->
                 if (word == correctWord) {
                     endGame(true)
                 }
