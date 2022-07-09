@@ -11,7 +11,7 @@ import com.walagran.wwf.R
  * A dumb QWERTY keyboard with enter and back key.
  */
 class KeyboardFragment : Fragment() {
-    var keyboardEventListener: KeyboardEventListener? = null
+    private var keyboardEventListener: KeyboardEventListener? = null
     fun setKeyBoardEventListener(
         keyboardEventListener: KeyboardEventListener?,
     ) {

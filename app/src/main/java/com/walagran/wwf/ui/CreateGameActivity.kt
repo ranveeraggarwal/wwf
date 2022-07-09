@@ -1,29 +1,24 @@
 package com.walagran.wwf.ui
 
-import com.walagran.wwf.ui.common.ControlsBar.Companion.newInstance
-import com.walagran.wwf.ui.common.KeyboardFragment.Companion.newInstance
-import androidx.appcompat.app.AppCompatActivity
-import com.walagran.wwf.ui.common.KeyboardEventListener
-import com.walagran.wwf.ui.CreateGameActivity.CreateGameKeyboardEventListener
-import android.widget.TextView
-import android.os.Bundle
-import com.walagran.wwf.R
 import android.content.Intent
-import com.walagran.wwf.ui.MainActivity
+import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.Button
-import com.walagran.wwf.ui.common.ControlsBar
-import com.walagran.wwf.ui.common.KeyboardFragment
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.walagran.wwf.R
+import com.walagran.wwf.ui.common.ControlsBar.Companion.newInstance
+import com.walagran.wwf.ui.common.KeyboardEventListener
+import com.walagran.wwf.ui.common.KeyboardFragment.Companion.newInstance
 import java.util.*
 
 class CreateGameActivity : AppCompatActivity() {
-    var keyboardEventListener: KeyboardEventListener =
+    private var keyboardEventListener: KeyboardEventListener =
         CreateGameKeyboardEventListener()
     var letterViews = ArrayList<TextView>()
     var createdWord = ArrayList(listOf('F', 'L', 'A', 'S', 'H'))
     var cellInFocus = 0
-    var gameId = 0
+    private var gameId = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_game)
@@ -41,7 +36,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun initializeButtons() {
         val shareButton = findViewById<Button>(R.id.create_game_share_button)
-        shareButton.setOnClickListener { view: View? ->
+        shareButton.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
             intent.type = "text/plain"
@@ -55,7 +50,7 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private val word: Optional<String>
-        private get() = if (cellInFocus == 5) Optional.of(TextUtils.join("",
+        get() = if (cellInFocus == 5) Optional.of(TextUtils.join("",
             createdWord)) else Optional.empty()
 
     private fun initializeLetterViews() {

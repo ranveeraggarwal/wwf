@@ -1,6 +1,5 @@
 package com.walagran.wwf.ui.common
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,10 +28,6 @@ class ControlsBar : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,15 +42,15 @@ class ControlsBar : Fragment() {
             if (showTitle) View.VISIBLE else View.GONE
         val controlBarHomeButtonView =
             rootView.findViewById<Button>(R.id.control_bar_home)
-        controlBarHomeButtonView.setOnClickListener { view: View ->
-            onHomeButtonClicked(view)
+        controlBarHomeButtonView.setOnClickListener {
+            onHomeButtonClicked()
         }
         controlBarHomeButtonView.visibility =
             if (showHome) View.VISIBLE else View.GONE
         return rootView
     }
 
-    private fun onHomeButtonClicked(view: View) {
+    private fun onHomeButtonClicked() {
         val intent = Intent(context, MainActivity::class.java)
         startActivity(intent)
         requireActivity().finish()

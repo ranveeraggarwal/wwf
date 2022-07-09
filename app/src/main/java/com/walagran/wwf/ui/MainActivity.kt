@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.create_game_controls_bar,
-                ControlsBar.newInstance("Main Activity", false, false))
+                ControlsBar.newInstance("Main Activity",
+                    showHome = false,
+                    showTitle = false))
             .commit()
 
         setUpButtons()
