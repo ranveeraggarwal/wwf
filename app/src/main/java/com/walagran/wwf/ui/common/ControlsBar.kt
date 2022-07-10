@@ -18,11 +18,12 @@ class ControlsBar : Fragment() {
     private var controlBarTitle = "Control Bar"
     private var showHome = true
     private var showTitle = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             controlBarTitle = requireArguments().getString(CONTROL_BAR_TITLE,
-                "Control Bar")
+                controlBarTitle)
             showHome = requireArguments().getBoolean(SHOW_HOME, true)
             showTitle = requireArguments().getBoolean(SHOW_TITLE, false)
         }
@@ -33,26 +34,30 @@ class ControlsBar : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_controls_bar,
-            container, false)
-        val controlBarTitleView =
-            rootView.findViewById<TextView>(R.id.control_bar_title)
+        val rootView = inflater.inflate(
+            R.layout.fragment_controls_bar,
+            container,
+            false)
+
+        val controlBarTitleView = rootView.findViewById<TextView>(
+            R.id.control_bar_title)
         controlBarTitleView.text = controlBarTitle
         controlBarTitleView.visibility =
             if (showTitle) View.VISIBLE else View.GONE
-        val controlBarHomeButtonView =
-            rootView.findViewById<Button>(R.id.control_bar_home)
+
+        val controlBarHomeButtonView = rootView.findViewById<Button>(
+            R.id.control_bar_home)
         controlBarHomeButtonView.setOnClickListener {
             onHomeButtonClicked()
         }
         controlBarHomeButtonView.visibility =
             if (showHome) View.VISIBLE else View.GONE
+
         return rootView
     }
 
     private fun onHomeButtonClicked() {
-        val intent = Intent(context, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(context, MainActivity::class.java))
         requireActivity().finish()
     }
 
