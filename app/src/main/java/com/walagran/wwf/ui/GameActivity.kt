@@ -14,6 +14,7 @@ import com.walagran.wwf.ui.common.ControlsBar
 import com.walagran.wwf.ui.common.KeyboardEventListener
 import com.walagran.wwf.ui.common.KeyboardFragment
 import java.util.*
+import kotlin.collections.ArrayList
 
 class GameActivity : AppCompatActivity() {
     private val keyboardEventListener: KeyboardEventListener =
@@ -21,6 +22,10 @@ class GameActivity : AppCompatActivity() {
 
     private val textViewGridCache = ArrayList<ArrayList<TextView>>()
     private val textGrid = ArrayList<ArrayList<Char>>()
+    private val resultGrid = ArrayList<String>()
+
+    private lateinit var shareButtons: Button
+    private lateinit var endGameText: TextView
 
     private var correctWord: String = ""
 
@@ -29,13 +34,12 @@ class GameActivity : AppCompatActivity() {
 
     private var gameEnded = false
 
-    // ⬛🟨🟩
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         // Game UI Setup.
-        setUpFragments()
+        setUpBasicUIElements()
         createGrid()
 
         // Fetch the correct word from intents.
@@ -53,7 +57,20 @@ class GameActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setUpFragments() {
+    private fun setUpBasicUIElements() {
+        fun getShareResult(): String {
+            return resultGrid.joinToString("\n")
+        }
+
+        fun getBasicText(): String {
+            return "Wordle with Friends\n🤖🤖🥇🥇\n"
+        }
+
+        // Initialize buttons.
+        shareButtons = findViewById(R.id.play_game_share_buttons)
+        endGameText = findViewById(R.id.play_game_end_game_text)
+
+        // Replace fragments with game parameters.
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.play_game_controls_bar,
@@ -64,6 +81,18 @@ class GameActivity : AppCompatActivity() {
             .replace(R.id.play_game_keyboard,
                 KeyboardFragment.newInstance(keyboardEventListener))
             .commit()
+
+        // Set click listeners on the share button.
+        shareButtons.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing " +
+                    "Result for Game #%s", correctWord))
+            val a = getBasicText() + getShareResult()
+            intent.putExtra(Intent.EXTRA_TEXT, getBasicText() + getShareResult())
+            startActivity(Intent.createChooser(intent, "Result"))
+        }
     }
 
     /**
@@ -186,8 +215,8 @@ class GameActivity : AppCompatActivity() {
         override fun onEnterKeyPressed() {
             fun processWordAndHighlightLetters() {
                 val word: CharArray = correctWord.toCharArray()
-                Log.d("Something", correctWord)
                 val marked = booleanArrayOf(false, false, false, false, false)
+                val rowResult = arrayOf("⬛", "⬛", "⬛", "⬛", "⬛")
                 for (i in 0 until MAX_LETTERS) {
                     val currentLetter = textGrid[rowInFocus][i]
                     if (currentLetter == word[i]) {
@@ -195,6 +224,7 @@ class GameActivity : AppCompatActivity() {
                             resources!!.getColor(R.color.green))
                         word[i] = '1'
                         marked[i] = true
+                        rowResult[i] = "🟩"
                     }
                 }
                 for (i in 0 until MAX_LETTERS) {
@@ -206,21 +236,19 @@ class GameActivity : AppCompatActivity() {
                                 resources!!.getColor(R.color.yellow))
                             word[j] = '1'
                             marked[i] = true
+                            rowResult[i] = "🟨"
                             break
                         }
                     }
                 }
+                resultGrid.add(rowResult.joinToString(""))
             }
 
             fun endGame(win: Boolean) {
                 // ToDo: Make ending the game better.
-                val endGameText =
-                    findViewById<TextView>(R.id.play_game_end_game_text)
                 endGameText.text =
                     if (win) "YOU WON!" else "BETTER LUCK NEXT TIME ..."
                 endGameText.visibility = View.VISIBLE
-                val shareButtons =
-                    findViewById<FrameLayout>(R.id.play_game_share_buttons)
                 shareButtons.visibility = View.VISIBLE
                 gameEnded = true
             }
