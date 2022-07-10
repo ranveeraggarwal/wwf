@@ -3,7 +3,6 @@ package com.walagran.wwf.ui
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -14,7 +13,6 @@ import com.walagran.wwf.ui.common.ControlsBar
 import com.walagran.wwf.ui.common.KeyboardEventListener
 import com.walagran.wwf.ui.common.KeyboardFragment
 import java.util.*
-import kotlin.collections.ArrayList
 
 class GameActivity : AppCompatActivity() {
     private val keyboardEventListener: KeyboardEventListener =
@@ -89,7 +87,6 @@ class GameActivity : AppCompatActivity() {
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing " +
                     "Result for Game #%s", correctWord))
-            val a = getBasicText() + getShareResult()
             intent.putExtra(Intent.EXTRA_TEXT, getBasicText() + getShareResult())
             startActivity(Intent.createChooser(intent, "Result"))
         }
