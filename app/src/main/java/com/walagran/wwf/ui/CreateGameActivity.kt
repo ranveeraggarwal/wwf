@@ -15,16 +15,21 @@ import java.util.*
 class CreateGameActivity : AppCompatActivity() {
     private var keyboardEventListener: KeyboardEventListener =
         CreateGameKeyboardEventListener()
+
+    private lateinit var shareButton: Button
+
     var letterViews = ArrayList<TextView>()
     var createdWord = ArrayList(listOf('F', 'L', 'A', 'S', 'H'))
     var cellInFocus = 0
     private var gameId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_game)
-        setUpFragments()
+
+        setUpBasicUIElements()
+
         initializeLetterViews()
-        initializeButtons()
     }
 
     override fun onBackPressed() {
@@ -33,25 +38,6 @@ class CreateGameActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
-    private fun initializeButtons() {
-        val shareButton = findViewById<Button>(R.id.create_game_share_button)
-        shareButton.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_SEND
-            intent.type = "text/plain"
-            word.ifPresent { word: String? ->
-                intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing " +
-                        "Game #%s", gameId))
-                intent.putExtra(Intent.EXTRA_TEXT, word)
-                startActivity(Intent.createChooser(intent, "Word"))
-            }
-        }
-    }
-
-    private val word: Optional<String>
-        get() = if (cellInFocus == 5) Optional.of(TextUtils.join("",
-            createdWord)) else Optional.empty()
 
     private fun initializeLetterViews() {
         for (i in 1..5) {
@@ -63,7 +49,7 @@ class CreateGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpFragments() {
+    private fun setUpBasicUIElements() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.create_game_controls_bar,
@@ -75,27 +61,53 @@ class CreateGameActivity : AppCompatActivity() {
             .replace(R.id.create_game_keyboard,
                 newInstance(keyboardEventListener))
             .commit()
+
+        shareButton = findViewById(R.id.create_game_share_button)
+        shareButton.setOnClickListener {
+            shareCreatedGame()
+        }
+    }
+
+    private fun shareCreatedGame() {
+        fun maybeGetInputWord(): Optional<String> {
+            return if (cellInFocus == 5)
+                Optional.of(TextUtils.join("", createdWord))
+            else Optional.empty()
+        }
+
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        maybeGetInputWord().ifPresent {
+            intent.putExtra(Intent.EXTRA_SUBJECT,
+                String.format("Sharing Game #%s", gameId))
+            intent.putExtra(Intent.EXTRA_TEXT, it)
+
+            startActivity(Intent.createChooser(intent, "Word"))
+        }
     }
 
     internal inner class CreateGameKeyboardEventListener :
         KeyboardEventListener {
         override fun onAlphaKeyPressed(alphabet: Char) {
-            if (cellInFocus == 5) {
-                return
-            }
+            if (cellInFocus == 5) { return }
+
             letterViews[cellInFocus].text = alphabet.toString()
             createdWord[cellInFocus] = alphabet
+
             cellInFocus++
         }
 
         override fun onBackKeyPressed() {
-            if (cellInFocus == 0) {
-                return
-            }
+            if (cellInFocus == 0) { return }
+
             cellInFocus--
+
             letterViews[cellInFocus].text = ""
         }
 
-        override fun onEnterKeyPressed() {}
+        override fun onEnterKeyPressed() {
+            shareCreatedGame()
+        }
     }
 }

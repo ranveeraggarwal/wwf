@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         findViewById<View>(R.id.play_game).setOnClickListener {
-            gameCode.ifPresent { gameCode: String? ->
+            getGameCodeFromEditableTextField().ifPresent { gameCode: String? ->
                 val intent = Intent(applicationContext,
                     GameActivity::class.java)
                 intent.putExtra("GAME_CODE", gameCode)
@@ -45,8 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val gameCode: Optional<String>
-        get() {
+    private fun getGameCodeFromEditableTextField(): Optional<String> {
             val gameCodeEditText = findViewById<EditText>(R.id.game_code)
             gameCodeEditText.filters = arrayOf<InputFilter>(AllCaps())
 
