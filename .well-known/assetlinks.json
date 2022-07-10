@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.walagran.wwf",
+        "sha256_cert_fingerprints":
+          ["BC:78:5A:55:60:0E:F9:C6:FE:65:98:4D:B2:A9:16:B9:93:30:E6:9C:1F:69:9C:97:96:9D:C0:18:CA:38:FE:39"]
+      }
+    }
+  ]
