@@ -22,11 +22,52 @@ class GameActivityTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
 
+    // First row tests
     @Test
     fun keyboardKeyPress() {
         launchActivityWithGameCode("FLAGS")
         pressKeys("a")
-        onView(withId(R.id.game_cell_11)).check(matches(withText("A")))
+        checkCellMatchesText(R.id.game_cell_11, "A")
+    }
+
+    @Test
+    fun keyboardKeyPressOnce_thenEnter() {
+        launchActivityWithGameCode("FLAGS")
+        pressKeys("a", "enter")
+        checkCellMatchesText(R.id.game_cell_11, "A")
+    }
+
+    @Test
+    fun keyboardKeyPressOnce_thenBack() {
+        launchActivityWithGameCode("FLAGS")
+        pressKeys("a", "back")
+        checkCellMatchesText(R.id.game_cell_11, "")
+    }
+
+    @Test
+    fun keyboardKeyPressFiveTimes_thenBack() {
+        launchActivityWithGameCode("FLAGS")
+        pressKeys("a", "a", "a", "a", "a", "back")
+
+        checkCellMatchesText(R.id.game_cell_11, "A")
+        checkCellMatchesText(R.id.game_cell_12, "A")
+        checkCellMatchesText(R.id.game_cell_13, "A")
+        checkCellMatchesText(R.id.game_cell_14, "A")
+        checkCellMatchesText(R.id.game_cell_15, "")
+    }
+
+    @Test
+    fun keyboardKeyPressManyTimes_thenBack_thenEnter() {
+        launchActivityWithGameCode("FLAGS")
+        pressKeys("a", "a", "a", "a", "a", "a", "a", "a")
+        pressKeys("back", "back", "back", "back", "back", "back", "back", "back", "back", "back", "back", "back")
+        pressKeys("enter")
+
+        checkCellMatchesText(R.id.game_cell_11, "")
+        checkCellMatchesText(R.id.game_cell_12, "")
+        checkCellMatchesText(R.id.game_cell_13, "")
+        checkCellMatchesText(R.id.game_cell_14, "")
+        checkCellMatchesText(R.id.game_cell_15, "")
     }
 
     @Test
@@ -37,6 +78,8 @@ class GameActivityTest {
 
         checkWonGame()
     }
+
+    // Second row tests
 
     @Test
     fun winGame_inLastTurn_fromGameCodeIntent() {
@@ -72,6 +115,10 @@ class GameActivityTest {
     private fun checkLostGame() {
         onView(withId(R.id.play_game_end_game_text))
             .check(matches(withText("BETTER LUCK NEXT TIME ...")))
+    }
+
+    private fun checkCellMatchesText(cellId: Int, text: String) {
+        onView(withId(cellId)).check(matches(withText(text)))
     }
 
     private fun pressKeys(vararg keys: String) {
