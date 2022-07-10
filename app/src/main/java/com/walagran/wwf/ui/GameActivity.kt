@@ -176,11 +176,11 @@ class GameActivity : AppCompatActivity() {
                 return
             }
 
-            // Update state
-            textViewGridCache[rowInFocus][cellInFocus].text = ""
-
             // Move cursor
             cellInFocus--
+
+            // Update state
+            textViewGridCache[rowInFocus][cellInFocus].text = ""
         }
 
         override fun onEnterKeyPressed() {
