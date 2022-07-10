@@ -79,7 +79,46 @@ class GameActivityTest {
         checkWonGame()
     }
 
-    // Second row tests
+    // Some row in the middle tests
+    @Test
+    fun getToAMiddleRow_thenPressAKey() {
+        launchActivityWithGameCode("FLASH")
+
+        pressKeys("f", "l", "a", "g", "s", "enter")
+        pressKeys("f")
+
+        checkCellMatchesText(R.id.game_cell_21, "F")
+    }
+
+    @Test
+    fun getToAMiddleRow_thenPressManyEnters() {
+        launchActivityWithGameCode("FLASH")
+
+        pressKeys("f", "l", "a", "g", "s", "enter")
+        pressKeys("enter", "enter", "enter", "enter", "enter", "enter", "enter", "enter")
+
+        checkCellMatchesText(R.id.game_cell_11, "F")
+        checkCellMatchesText(R.id.game_cell_12, "L")
+        checkCellMatchesText(R.id.game_cell_13, "A")
+        checkCellMatchesText(R.id.game_cell_14, "G")
+        checkCellMatchesText(R.id.game_cell_15, "S")
+        checkCellMatchesText(R.id.game_cell_21, "")
+    }
+
+    @Test
+    fun getToAMiddleRow_thenPressManyBacks() {
+        launchActivityWithGameCode("FLASH")
+
+        pressKeys("f", "l", "a", "g", "s", "enter", "a")
+        pressKeys("back", "back", "back", "back", "back", "back", "back", "back")
+
+        checkCellMatchesText(R.id.game_cell_11, "F")
+        checkCellMatchesText(R.id.game_cell_12, "L")
+        checkCellMatchesText(R.id.game_cell_13, "A")
+        checkCellMatchesText(R.id.game_cell_14, "G")
+        checkCellMatchesText(R.id.game_cell_15, "S")
+        checkCellMatchesText(R.id.game_cell_21, "")
+    }
 
     @Test
     fun winGame_inLastTurn_fromGameCodeIntent() {
