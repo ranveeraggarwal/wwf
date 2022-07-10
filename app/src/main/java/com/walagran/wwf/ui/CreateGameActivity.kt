@@ -84,7 +84,7 @@ class CreateGameActivity : AppCompatActivity() {
                 return
             }
             letterViews[cellInFocus].text = alphabet.toString()
-            createdWord[cellInFocus] = Character.toUpperCase(alphabet)
+            createdWord[cellInFocus] = alphabet
             cellInFocus++
         }
 

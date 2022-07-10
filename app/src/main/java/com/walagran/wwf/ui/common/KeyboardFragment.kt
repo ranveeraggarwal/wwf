@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.walagran.wwf.R
 
@@ -11,41 +12,41 @@ import com.walagran.wwf.R
  * A dumb QWERTY keyboard with enter and back key.
  */
 class KeyboardFragment : Fragment() {
-    private var keyboardEventListener: KeyboardEventListener? = null
-    fun setKeyBoardEventListener(
-        keyboardEventListener: KeyboardEventListener?,
-    ) {
+    private lateinit var keyboardEventListener: KeyboardEventListener
+
+    fun setKeyBoardEventListener(keyboardEventListener: KeyboardEventListener) {
         this.keyboardEventListener = keyboardEventListener
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_keyboard,
-            container, false)
+        val rootView = inflater.inflate(
+            R.layout.fragment_keyboard,
+            container,
+            false)
         var alpha = 'a'
         while (alpha <= 'z') {
-            val passedAlphabet = alpha
+            val cachedAlphabet = alpha
             rootView
-                .findViewById<View>(rootView
+                .findViewById<Button>(rootView
                     .resources
-                    .getIdentifier("key_$alpha", "id", rootView
+                    .getIdentifier("key_$cachedAlphabet", "id", rootView
                         .context
                         .packageName))
                 .setOnClickListener {
-                    keyboardEventListener!!.onAlphaKeyPressed(Character.toUpperCase(
-                        passedAlphabet))
+                    keyboardEventListener.onAlphaKeyPressed(cachedAlphabet.uppercaseChar())
                 }
             alpha++
         }
         rootView
-            .findViewById<View>(R.id.key_back)
-            .setOnClickListener { keyboardEventListener!!.onBackKeyPressed() }
+            .findViewById<Button>(R.id.key_back)
+            .setOnClickListener { keyboardEventListener.onBackKeyPressed() }
         rootView
-            .findViewById<View>(R.id.key_enter)
-            .setOnClickListener { keyboardEventListener!!.onEnterKeyPressed() }
+            .findViewById<Button>(R.id.key_enter)
+            .setOnClickListener { keyboardEventListener.onEnterKeyPressed() }
         return rootView
     }
 
@@ -59,9 +60,7 @@ class KeyboardFragment : Fragment() {
          * @return A new instance of fragment KeyboardFragment.
          */
         @JvmStatic
-        fun newInstance(
-            keyboardEventListener: KeyboardEventListener,
-        ): KeyboardFragment {
+        fun newInstance(keyboardEventListener: KeyboardEventListener): KeyboardFragment {
             val fragment = KeyboardFragment()
             fragment.setKeyBoardEventListener(keyboardEventListener)
             return fragment

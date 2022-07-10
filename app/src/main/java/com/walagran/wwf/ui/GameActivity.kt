@@ -185,15 +185,15 @@ class GameActivity : AppCompatActivity() {
 
     internal inner class PlayGameKeyboardEventListener : KeyboardEventListener {
         override fun onAlphaKeyPressed(alphabet: Char) {
+            assert(alphabet.uppercaseChar() == alphabet)
             // Check if ended or beyond last cell
             if (gameEnded || rowInFocus == MAX_WORDS || cellInFocus == MAX_LETTERS) {
                 return
             }
 
             // Update state
-            textViewGridCache[rowInFocus][cellInFocus].text =
-                alphabet.uppercase()
-            textGrid[rowInFocus][cellInFocus] = alphabet.uppercaseChar()
+            textViewGridCache[rowInFocus][cellInFocus].text = alphabet.toString()
+            textGrid[rowInFocus][cellInFocus] = alphabet
 
             // Move cursor
             cellInFocus++
