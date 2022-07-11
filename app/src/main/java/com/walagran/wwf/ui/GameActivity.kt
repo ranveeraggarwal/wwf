@@ -27,7 +27,10 @@ class GameActivity : AppCompatActivity() {
 
     private var correctWord: String = ""
 
+    // A cursor to the row that's being written to. If we go beyond MAX_WORDS, that means we've exhausted the number of tries.
     private var rowInFocus = 0
+
+    // A cursor to the cell that's being written to. If we go beyond MAX_LETTERS, that means the word is complete.
     private var cellInFocus = 0
 
     private var gameEnded = false
@@ -87,7 +90,8 @@ class GameActivity : AppCompatActivity() {
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, String.format("Sharing " +
                     "Result for Game #%s", correctWord))
-            intent.putExtra(Intent.EXTRA_TEXT, getBasicText() + getShareResult())
+            intent.putExtra(Intent.EXTRA_TEXT,
+                getBasicText() + getShareResult())
             startActivity(Intent.createChooser(intent, "Result"))
         }
     }
@@ -189,7 +193,8 @@ class GameActivity : AppCompatActivity() {
             }
 
             // Update state
-            textViewGridCache[rowInFocus][cellInFocus].text = alphabet.toString()
+            textViewGridCache[rowInFocus][cellInFocus].text =
+                alphabet.toString()
             textGrid[rowInFocus][cellInFocus] = alphabet
 
             // Move cursor
@@ -262,18 +267,16 @@ class GameActivity : AppCompatActivity() {
             }
             // Get a word if the row is complete or do nothing.
             getWordFromRowInFocus().ifPresent {
-                // The word is correct.
-                if (it == correctWord) {
-                    endGame(true)
-                }
-
                 // The word is a valid word of the english dictionary
                 if (Utils.isWordValid(applicationContext, it)) {
                     processWordAndHighlightLetters()
                     rowInFocus++
                     cellInFocus = 0
-                    // No more rows left.
-                    if (rowInFocus == MAX_WORDS) {
+                    if (it == correctWord) {
+                        // The word is correct.
+                        endGame(true)
+                    } else if (rowInFocus == MAX_WORDS) {
+                        // No more rows left.
                         endGame(false)
                     }
                 } else {
