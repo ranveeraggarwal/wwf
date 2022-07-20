@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "407854835491",
+    "project_id": "walagran-wwf",
+    "storage_bucket": "walagran-wwf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407854835491:android:8657c0cae124fe46258e96",
+        "android_client_info": {
+          "package_name": "com.walagran.wwf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407854835491-0254hgdcqgvgjgtr06an981d5t2vb2lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walagran.wwf",
+            "certificate_hash": "b9fcb53b736ec6a3d8bba09e1f877b21c80457c6"
+          }
+        },
+        {
+          "client_id": "407854835491-38ocjcv28incv7ubnff8j6083lnbtl6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW_SoAj0SZlG8Kxv2v8D7O-TwIK2_yy5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407854835491-38ocjcv28incv7ubnff8j6083lnbtl6o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
