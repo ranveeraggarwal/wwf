@@ -2,6 +2,7 @@ package com.walagran.wwf.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -56,6 +57,11 @@ class GameActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("GAME_CODE", correctWord)
+        super.onSaveInstanceState(outState)
     }
 
     private fun setUpBasicUIElements() {
@@ -177,7 +183,7 @@ class GameActivity : AppCompatActivity() {
                 }
             } else {
                 correctWord =
-                    savedInstanceState.getSerializable("GAME_CODE") as String
+                    savedInstanceState.getString("GAME_CODE") as String
             }
         }
 
