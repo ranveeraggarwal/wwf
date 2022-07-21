@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.AllCaps
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -29,11 +30,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
+        findViewById<View>(R.id.play_random_game).setOnClickListener {
+            val randomWord = Utils.getRandomWord(applicationContext)
+            Log.d("MAIN", "Random word is $randomWord")
+            val intent = Intent(applicationContext, GameActivity::class.java)
+            intent.putExtra("GAME_CODE", randomWord)
+            startActivity(intent)
+            finish()
+        }
+
         findViewById<View>(R.id.create_game).setOnClickListener {
             startActivity(Intent(applicationContext,
                 CreateGameActivity::class.java))
             finish()
         }
+
         findViewById<View>(R.id.play_game).setOnClickListener {
             getGameCodeFromEditableTextField().ifPresent { gameCode: String? ->
                 val intent = Intent(applicationContext,

@@ -5,9 +5,14 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import kotlin.random.Random
 
 object Utils {
     fun isWordValid(context: Context, word: String): Boolean {
+        return getWordList(context).contains(word.lowercase())
+    }
+
+    private fun getWordList(context: Context): ArrayList<String> {
         val assetManager = context.assets
         val wordList: InputStream
         var wordLine = ""
@@ -19,8 +24,12 @@ object Utils {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val words =
-            ArrayList(listOf(*wordLine.split(",").toTypedArray()))
-        return words.contains(word.lowercase())
+        return ArrayList(listOf(*wordLine.split(",").toTypedArray()))
+    }
+
+    fun getRandomWord(context: Context): String {
+        val generator = Random.Default
+        val wordList = getWordList(context)
+        return wordList[generator.nextInt(wordList.size)]
     }
 }

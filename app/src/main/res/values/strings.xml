@@ -3,6 +3,7 @@
     <string name="game_title_placeholder">Placeholder\'s Game</string>
     <string name="home_create_game">Create Game</string>
     <string name="home_play_with_code">Play with Code</string>
+    <string name="home_random_word">Random Word</string>
     <string name="home_stats">Stats</string>
     <string name="home_title_image">Title Image</string>
     <string name="share">Share</string>
@@ -35,6 +36,6 @@
     <string name="key_n">N</string>
     <string name="key_m">M</string>
     <string name="key_enter">ENTER</string>
-    <string name="wordle_with_friends">Wordle With Friends</string>
+    <string name="wordle_with_friends">Friendle</string>
     <string name="game_code">Game Code</string>
 </resources>
