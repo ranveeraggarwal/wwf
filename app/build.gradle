@@ -12,8 +12,8 @@ android {
         applicationId "com.walagran.wwf"
         minSdk 24
         targetSdk 32
-        versionCode 6
-        versionName '1.6'
+        versionCode 8
+        versionName '1.8'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,6 +42,8 @@ dependencies {
 
     implementation "androidx.core:core-ktx:1.8.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:30.3.0')
@@ -58,4 +60,12 @@ dependencies {
     androidTestImplementation('androidx.test.espresso:espresso-intents:3.4.0')
     androidTestImplementation('androidx.test:runner:1.4.0')
     androidTestImplementation('androidx.test:rules:1.4.0')
+
+    implementation "androidx.room:room-runtime:$rootProject.room_version"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$rootProject.room_version"
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$rootProject.room_version"
 }

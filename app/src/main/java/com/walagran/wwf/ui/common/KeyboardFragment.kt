@@ -50,6 +50,7 @@ class KeyboardFragment : Fragment() {
             .setOnClickListener {
                 val characterStateMap =
                     keyboardEventListener.onEnterKeyPressed()
+                // Update keyboard with new colors, since there aren't many, overwrite with conviction.
                 characterStateMap.forEach { (character, letterState) ->
                     rootView.findViewById<Button>(rootView.resources.getIdentifier(
                         "key_$character",

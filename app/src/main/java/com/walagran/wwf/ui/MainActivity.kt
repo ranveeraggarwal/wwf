@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("MAIN", "Random word is $randomWord")
             val intent = Intent(applicationContext, GameActivity::class.java)
             intent.putExtra("GAME_CODE", randomWord)
+            intent.putExtra("GAME_TYPE", "RANDOM")
             startActivity(intent)
             finish()
         }
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext,
                     GameActivity::class.java)
                 intent.putExtra("GAME_CODE", gameCode)
+                intent.putExtra("GAME_TYPE", "WITH_CODE")
                 startActivity(intent)
                 finish()
             }
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             gameCodeEditText.filters = arrayOf<InputFilter>(AllCaps())
 
             val gameCode = gameCodeEditText.text.toString()
-            return if (gameCode.length == 5 && Utils.isWordValid(
+            return if (gameCode.length == 5 &&  Utils.isWordValid(
                     applicationContext,
                     gameCode)
             ) {

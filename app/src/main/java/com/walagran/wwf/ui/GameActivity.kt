@@ -28,6 +28,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var endGameText: TextView
 
     private var correctWord: String = ""
+    private var controlBarTitle: String = ""
 
     // A cursor to the row that's being written to. If we go beyond MAX_WORDS, that means we've exhausted the number of tries.
     private var rowInFocus = 0
@@ -41,12 +42,12 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        // Fetch the correct word from intents.
+        getCorrectWord(savedInstanceState)
+
         // Game UI Setup.
         setUpBasicUIElements()
         createGrid()
-
-        // Fetch the correct word from intents.
-        getCorrectWord(savedInstanceState)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -71,7 +72,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         fun getBasicText(): String {
-            return "Wordle with Friends\n🤖🤖🥇🥇\n"
+            return "Friendle\n🤖🤖🥇🥇\n"
         }
 
         // Initialize buttons.
@@ -82,7 +83,9 @@ class GameActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.play_game_controls_bar,
-                ControlsBar.newInstance(""))
+                ControlsBar.newInstance(controlBarTitle,
+                    showHome = true,
+                    showTitle = true))
             .commit()
         supportFragmentManager
             .beginTransaction()
@@ -181,7 +184,10 @@ class GameActivity : AppCompatActivity() {
         } else {
             if (savedInstanceState == null) {
                 if (intent.extras != null) {
-                    correctWord = intent.extras!!.getString("GAME_CODE")!!
+                    correctWord = intent.getStringExtra("GAME_CODE") as String
+                    if (intent.getStringExtra("GAME_TYPE").equals("RANDOM")) {
+                        controlBarTitle = "Lonely Friendle"
+                    }
                 }
             } else {
                 correctWord =
