@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.walagran.wwf.LetterState
 import com.walagran.wwf.R
 import com.walagran.wwf.ui.common.ControlsBar.Companion.newInstance
 import com.walagran.wwf.ui.common.KeyboardEventListener
@@ -106,8 +107,9 @@ class CreateGameActivity : AppCompatActivity() {
             letterViews[cellInFocus].text = ""
         }
 
-        override fun onEnterKeyPressed() {
+        override fun onEnterKeyPressed(): Map<Char, LetterState> {
             shareCreatedGame()
+            return emptyMap()
         }
     }
 }

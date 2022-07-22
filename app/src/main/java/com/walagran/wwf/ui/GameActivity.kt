@@ -2,12 +2,12 @@ package com.walagran.wwf.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.walagran.wwf.LetterState
 import com.walagran.wwf.R
 import com.walagran.wwf.Utils
 import com.walagran.wwf.ui.common.ControlsBar
@@ -22,6 +22,7 @@ class GameActivity : AppCompatActivity() {
     private val textViewGridCache = ArrayList<ArrayList<TextView>>()
     private val textGrid = ArrayList<ArrayList<Char>>()
     private val resultGrid = ArrayList<String>()
+    private val characterStateMap = HashMap<Char, LetterState>()
 
     private lateinit var shareButtons: Button
     private lateinit var endGameText: TextView
@@ -117,11 +118,12 @@ class GameActivity : AppCompatActivity() {
                     .toInt())
             layoutParams.setMargins(4, 4, 4, 4)
             textView.layoutParams = layoutParams
-            textView.setBackgroundColor(resources!!.getColor(R.color.white))
+            textView.setBackgroundColor(resources!!.getColor(R.color.white,
+                theme))
             textView.textSize =
                 resources!!.getDimension(R.dimen.game_cell_text_size)
             textView.gravity = Gravity.CENTER
-            textView.setTextColor(resources!!.getColor(R.color.black))
+            textView.setTextColor(resources!!.getColor(R.color.black, theme))
         }
 
         /**
@@ -220,7 +222,7 @@ class GameActivity : AppCompatActivity() {
             textViewGridCache[rowInFocus][cellInFocus].text = ""
         }
 
-        override fun onEnterKeyPressed() {
+        override fun onEnterKeyPressed(): Map<Char, LetterState> {
             fun processWordAndHighlightLetters() {
                 val word: CharArray = correctWord.toCharArray()
                 val marked = booleanArrayOf(false, false, false, false, false)
@@ -229,10 +231,19 @@ class GameActivity : AppCompatActivity() {
                     val currentLetter = textGrid[rowInFocus][i]
                     if (currentLetter == word[i]) {
                         textViewGridCache[rowInFocus][i].setBackgroundColor(
-                            resources!!.getColor(R.color.green))
+                            resources!!.getColor(R.color.green, theme))
+                        characterStateMap[currentLetter.lowercaseChar()] =
+                            LetterState.GREEN
                         word[i] = '1'
                         marked[i] = true
                         rowResult[i] = "🟩"
+                    } else {
+                        if (characterStateMap.getOrDefault(currentLetter.lowercaseChar(),
+                                LetterState.UNKNOWN) == LetterState.UNKNOWN
+                        ) {
+                            characterStateMap[currentLetter.lowercaseChar()] =
+                                LetterState.BLACK
+                        }
                     }
                 }
                 for (i in 0 until MAX_LETTERS) {
@@ -241,7 +252,13 @@ class GameActivity : AppCompatActivity() {
                     for (j in 0..4) {
                         if (currentLetter == word[j]) {
                             textViewGridCache[rowInFocus][i].setBackgroundColor(
-                                resources!!.getColor(R.color.yellow))
+                                resources!!.getColor(R.color.yellow, theme))
+                            if (characterStateMap.getOrDefault(currentLetter.lowercaseChar(),
+                                    LetterState.UNKNOWN) != LetterState.GREEN
+                            ) {
+                                characterStateMap[currentLetter.lowercaseChar()] =
+                                    LetterState.YELLOW
+                            }
                             word[j] = '1'
                             marked[i] = true
                             rowResult[i] = "🟨"
@@ -269,7 +286,7 @@ class GameActivity : AppCompatActivity() {
 
             // Check if game ended
             if (gameEnded || rowInFocus == MAX_WORDS) {
-                return
+                return characterStateMap
             }
             // Get a word if the row is complete or do nothing.
             getWordFromRowInFocus().ifPresent {
@@ -290,6 +307,8 @@ class GameActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
             }
+
+            return characterStateMap
         }
     }
 

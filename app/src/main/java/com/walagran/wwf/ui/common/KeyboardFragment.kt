@@ -21,7 +21,8 @@ class KeyboardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?,
+    ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(
             R.layout.fragment_keyboard,
@@ -46,7 +47,19 @@ class KeyboardFragment : Fragment() {
             .setOnClickListener { keyboardEventListener.onBackKeyPressed() }
         rootView
             .findViewById<Button>(R.id.key_enter)
-            .setOnClickListener { keyboardEventListener.onEnterKeyPressed() }
+            .setOnClickListener {
+                val characterStateMap =
+                    keyboardEventListener.onEnterKeyPressed()
+                characterStateMap.forEach { (character, letterState) ->
+                    rootView.findViewById<Button>(rootView.resources.getIdentifier(
+                        "key_$character",
+                        "id",
+                        rootView.context.packageName))
+                        .setBackgroundColor(rootView.resources!!.getColor(
+                            letterState.color(),
+                            rootView.context.theme))
+                }
+            }
         return rootView
     }
 

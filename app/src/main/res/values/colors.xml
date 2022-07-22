@@ -12,4 +12,5 @@
     <color name="background">#000000</color>
     <color name="yellow">#e9c46a</color>
     <color name="orange">#ffffff</color>
+    <color name="grey">#BEBEBE</color>
 </resources>
