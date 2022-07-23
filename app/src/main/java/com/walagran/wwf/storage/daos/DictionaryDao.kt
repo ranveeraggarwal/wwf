@@ -11,11 +11,11 @@ import com.walagran.wwf.storage.entities.Dictionary
 interface DictionaryDao {
     @Nullable
     @Query("SELECT * FROM dictionary_table WHERE word == :word LIMIT 1")
-    fun findWord(word: String): Dictionary?
+    suspend fun findWord(word: String): Dictionary?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntry(entry: Dictionary)
 
     @Query("DELETE FROM dictionary_table")
-    suspend fun deleteAll()
+    suspend fun deleteAll(): Int
 }

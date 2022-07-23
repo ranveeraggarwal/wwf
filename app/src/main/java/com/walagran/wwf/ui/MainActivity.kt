@@ -7,13 +7,21 @@ import android.text.InputFilter.AllCaps
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.walagran.wwf.FriendleApplication
 import com.walagran.wwf.R
 import com.walagran.wwf.Utils
 import com.walagran.wwf.ui.common.ControlsBar
+import com.walagran.wwf.ui.viewmodels.DictionaryViewModel
+import com.walagran.wwf.ui.viewmodels.DictionaryViewModelFactory
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private val dictionaryViewModel: DictionaryViewModel by viewModels {
+        DictionaryViewModelFactory((application as FriendleApplication).repository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,15 +67,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getGameCodeFromEditableTextField(): Optional<String> {
-            val gameCodeEditText = findViewById<EditText>(R.id.game_code)
-            gameCodeEditText.filters = arrayOf<InputFilter>(AllCaps())
+        val gameCodeEditText = findViewById<EditText>(R.id.game_code)
+        gameCodeEditText.filters = arrayOf<InputFilter>(AllCaps())
 
-            val gameCode = gameCodeEditText.text.toString()
-            return if (gameCode.length == 5 &&  Utils.isWordValid(
-                    applicationContext,
-                    gameCode)
-            ) {
-                Optional.of(gameCode)
-            } else Optional.empty()
-        }
+        val gameCode = gameCodeEditText.text.toString()
+        return if (gameCode.length == 5 && dictionaryViewModel.isWordInDictionary(
+                gameCode)
+        ) {
+            Optional.of(gameCode)
+        } else Optional.empty()
+    }
 }

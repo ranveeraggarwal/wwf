@@ -11,7 +11,7 @@ class DictionaryRepository(private val dictionaryDao: DictionaryDao) {
         dictionaryDao.insertEntry(Dictionary(word))
     }
 
-    fun isWordInDictionary(word: String): Boolean {
+    suspend fun isWordInDictionary(word: String): Boolean {
         return dictionaryDao.findWord(word) != null
     }
 }

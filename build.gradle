@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.5.30'
     repositories {
         mavenCentral()
         google()
@@ -31,4 +31,6 @@ task clean(type: Delete) {
 ext {
     room_version = '2.4.2'
     coroutines = '1.5.2'
+    lifecycleVersion = '2.4.0'
+    activityVersion = '1.4.0'
 }

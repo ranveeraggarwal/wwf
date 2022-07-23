@@ -24,6 +24,7 @@ abstract class FriendleDatabase : RoomDatabase() {
 
                     dictionaryDao.deleteAll()
 
+                    // ToDo: Add all the other entries.
                     dictionaryDao.insertEntry(Dictionary("FLASH"))
                     dictionaryDao.insertEntry(Dictionary("FLAGS"))
                 }
